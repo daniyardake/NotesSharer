@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link href="{{ url_for('static', filename='registration.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block body %}
+
+    <div class="container register-form" style = "margin-top: 150px">
+        <div class="form">
+            <div class="form-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Login *" value=""/>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Password *" value=""/>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btnSubmit">Login</button>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

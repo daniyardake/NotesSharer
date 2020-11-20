@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block css %}
+    <link href="{{ url_for('static', filename='css/registration.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+
+{% block title %}
+    Registration Page
+{% endblock %}
+
+{% block body %}
+
+    <div class="container register-form" style = "margin-top: 150px">
+        <form method = "post" action = "{{url_for('register')}}"  id = "registration">
+            <div class="form">
+                <div class="form-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id = "login" class="form-control" placeholder="Login *" value="" name = "login" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id = "password" class="form-control" placeholder="Password *" value="" name = "password" required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Name *" value="" name = "name" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id = "password2" class="form-control" placeholder="Confirm Password *" value="" name = "password2" required />
+                            </div>
+                        </div>
+                    </div>
+                    <input type = "submit" class = "btnSubmit" value = "Submit" />
+                    <span class="error" aria-live="polite"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <script src="{{url_for('static', filename = 'js/registration.js')}}"></script>
+{% endblock %}
