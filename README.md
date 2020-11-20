@@ -6,6 +6,8 @@
 
 This is final project of Intro to Database Design Class, where we learned introduction to SQL. For the final project we had to use any programming language and db to create a single application that executes some SQL commands. I decided to use Flask framework, but without using SQLAlchemy (as we will have to manually write all SQL commands). 
 
+This application allows users to login/register and then share lecture their notes with each other.
+
 ## Requirements
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all requirements.
