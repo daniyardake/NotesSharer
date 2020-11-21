@@ -34,7 +34,11 @@
                         </div>
                     </div>
                     <input type = "submit" class = "btnSubmit" value = "Submit" />
-                    <span class="error" aria-live="polite"></span>
+                    <span class="error" aria-live="polite">
+                        {% if context['error_login_exists'] %}
+                            Login is already taken
+                        {% endif %}
+                    </span>
                 </div>
             </div>
         </form>

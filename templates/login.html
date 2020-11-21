@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <input type = "submit" class = "btnSubmit" value = "Submit" />
-                    <span class="error" aria-live="polite"></span>
+                    <span class="error" aria-live="polite">{% if context['error_wrong_login'] %} Wrong login or password{% endif %}</span>
                 </div>
             </div>
         </form>

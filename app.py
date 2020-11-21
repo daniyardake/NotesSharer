@@ -8,13 +8,18 @@ app.secret_key = 'hello world!'
 
 
 @app.route('/')
-def hello():
+def index():
     context = dict()
     return render_template('index.html', context = context)
 
-@app.route('/login')
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
     context = dict()
+
+    if (session['user']):
+        return render_template('my_account.html', context = context)
+
+
     if (request.method == 'GET'):
         return render_template('login.html', context = context)
     else:
@@ -24,8 +29,24 @@ def login():
         login = request.form.get('login')
         password = request.form.get('password')
 
-        cursor.execute('SELECT ')
+        cursor.execute('SELECT id, login, name FROM accounts WHERE login = ? AND password = ? ', [login,password])
+        user = cursor.fetchone()
         
+        if (user):
+            session['user'] = {
+            'id' : user[0],
+            'login' : login,
+            }
+            return render_template('my_account.html', context = context)
+        else:
+            context['error_wrong_login'] = True
+            return render_template('login.html', context = context)
+
+
+
+        
+        
+
         db_connection.commit()
         cursor.close()
         
@@ -35,6 +56,9 @@ def login():
 @app.route('/register', methods = ['POST', "GET"])
 def register():
     context = dict()
+    if (session['user']):
+        return render_template('account.html', context = context)
+    
     if (request.method == 'GET'):
         return render_template('registration.html', context = context)
     else:
@@ -48,7 +72,7 @@ def register():
         cursor.execute('SELECT id, login, name FROM accounts WHERE login = ?', [login])
         result = cursor.fetchone()
         if (result):
-            context['error'] = 'Login Already exists'
+            context['error_login_exists'] = True
             return render_template('registration.html', context = context)
         else:
             cursor.execute('SELECT COUNT(*) FROM accounts;')
@@ -65,7 +89,7 @@ def register():
         
         db_connection.commit()
         cursor.close()
-        return render_template('account.html', context = context)
+        return render_template('my_account.html', context = context)
 
 @app.route('/exit')
 def exit():
@@ -87,7 +111,13 @@ def all_users():
     context['users'] = users
     return render_template('all_users.html', context = context)
     
+@app.route('/my_account')
+def my_account():
+    context = dict()
+    db_connection = sqlite3.connect('database.db')
+   
 
+    return render_template('all_users.html', context = context)
 
 if __name__ == '__main__':
     app.run()
