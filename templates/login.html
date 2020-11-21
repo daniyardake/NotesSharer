@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block css %}
-    <link href="{{ url_for('static', filename='registration.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='css/registration.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 
@@ -12,24 +12,29 @@
 {% block body %}
 
     <div class="container register-form" style = "margin-top: 150px">
-        <div class="form">
-            <div class="form-content">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Login *" value=""/>
+        <form method = "post" action = "{{url_for('login')}}"  id = "login">
+            <div class="form">
+                <div class="form-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id = "login" class="form-control" placeholder="Login *" value="" name = "login" required/>
+                            </div>
+                            
                         </div>
-                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Password *" value=""/>
+                        <div class="col-md-6">
+                            
+                            <div class="form-group">
+                                <input type="password" id = "password" class="form-control" placeholder="Password *" value="" name = "password" required />
+                            </div>
                         </div>
                     </div>
+                    <input type = "submit" class = "btnSubmit" value = "Submit" />
+                    <span class="error" aria-live="polite"></span>
                 </div>
-                <button type="button" class="btnSubmit">Login</button>
             </div>
-        </div>
+        </form>
     </div>
     
+    <script src="{{url_for('static', filename = 'js/registration.js')}}"></script>
 {% endblock %}
