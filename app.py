@@ -10,12 +10,27 @@ app.secret_key = 'hello world!'
 @app.route('/')
 def index():
     context = dict()
+    try:
+        a = session['user']
+        if (a):
+            return notes()
+    except:
+        return render_template('index.html', context = context)
+
     
     return render_template('index.html', context = context)
 
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     context = dict()
+    try:
+        a = session['user']
+        if (a):
+            return notes()
+    except:
+        return render_template('login.html', context = context)
+
+
 
     # if (session['user']):
     #     return render_template('my_account.html', context = context)
@@ -57,8 +72,15 @@ def login():
     
 @app.route('/register', methods = ['POST', "GET"])
 def register():
-
     context = dict()
+    try:
+        a = session['user']
+        if (a):
+            return notes()
+    except:
+        return render_template('registration.html', context=context)
+
+    
     if (request.method == 'GET'):
         return render_template('registration.html', context = context)
     else:
@@ -137,7 +159,7 @@ def my_account():
     #context['login'] = session['user']['login']
     return render_template('my_account.html', context = context)
 
-@app.route('/notes')
+@app.route('/notes', methods = ['GET', 'POST'])
 def notes():
     if (not session['user']):
         return render_template('404.html', error = 'You are not loged in to view this page')
@@ -148,12 +170,32 @@ def notes():
 
     db_connection = sqlite3.connect('database.db')
     cursor = db_connection.cursor()
-    cursor.execute('SELECT * FROM notes;')
-    notes = cursor.fetchall()
-    
-    cursor.close()
-    
-    context['notes'] = reversed(notes)
+
+    if (request.method == 'POST'):
+        search = request.form.get('searchQ')
+        type_search = request.form.get('type')
+        
+        
+        if (type_search == 'University'):
+            cursor.execute('SELECT * FROM notes WHERE instr(?,notes.university)>0;', [search])
+        elif (type_search == 'Class'):
+            cursor.execute('SELECT * FROM notes WHERE instr(?,notes.class)>0;', [search])
+        elif (type_search == 'Content'):
+            cursor.execute('SELECT * FROM notes WHERE instr(?,notes.content)>0;', [search])
+        elif (type_search == 'Author'):
+            cursor.execute('SELECT * FROM notes INNER JOIN accounts ON notes.author = accounts.id WHERE instr(?,accounts.login)>0;', [search])
+        else:
+            cursor.execute('SELECT * FROM notes;')
+        
+        notes = cursor.fetchall()
+        cursor.close()
+        context['notes'] = reversed(notes)
+
+    else:
+        cursor.execute('SELECT * FROM notes;')
+        notes = cursor.fetchall()
+        cursor.close()
+        context['notes'] = reversed(notes)
     return render_template('notes.html', context = context)
 
 @app.route('/notes/<id>', methods = ['POST', 'GET'])
@@ -269,4 +311,5 @@ def edit_user(login):
 
     return render_template('edit_account.html', context = context)
 if __name__ == '__main__':
+    
     app.run()

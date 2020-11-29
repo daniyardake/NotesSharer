@@ -6,7 +6,31 @@
 
 {% block body %}
     <div class = "row"><div class = "col-sm-8"><center><h1>All Lecture Notes</h1></center></div><div class = "col-sm-4"><a href = "{{url_for('add_note')}}" class = "btn btn-info" style = "margin-top:10px;">Add new note</a></div></div>
-    
+    <br><br>
+    <form method = "post"  id = "search">
+        <div class="form-row row">
+            <div class="col-2">
+                
+            </div>
+            <div class="col-6">
+                <input type="text" id = "searchQ" name = "searchQ" class="form-control" placeholder="Search">
+            </div>
+            <div class="col-2">
+                <select class="form-control" id="exampleFormControlSelect1" name = "type">
+                    <option>Search by</option>
+                    <option>University</option>
+                    <option>Class</option>
+                    <option>Author</option>
+                    <option>Content</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <input type = "submit" class = "btn btn-primary" value = "Search" />
+            </div>
+            
+        </div>
+    </form>
+    <br><br>
     <div class="container">
         <div class="row">
             <div class="col-sm-1"></div>

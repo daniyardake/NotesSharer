@@ -1,9 +1,3 @@
-
-# CURRENTLY IN PROGRESS
-
-TODO:
-- Filter Results
-
 # Lecture Notes Sharer
 
 This is final project of Intro to Database Design Class, where we learned introduction to SQL. For the final project we had to use any programming language and db to create a single application that executes some SQL commands. I decided to use Flask framework, but without using SQLAlchemy (as we will have to manually write all SQL commands). 
