@@ -68,6 +68,8 @@ def register():
         login = request.form.get('login')
         name = request.form.get('name')
         password = request.form.get('password')
+        university = request.form.get('university')
+        github = request.form.get('github')
 
         cursor.execute('SELECT id, login, name FROM accounts WHERE login = ?', [login])
         result = cursor.fetchone()
@@ -84,8 +86,7 @@ def register():
                 'name' : name
             }
             
-            cursor.execute('INSERT INTO accounts (login, password, name) VALUES (?,?,?);', (user.login, password, user.name))
-        
+            cursor.execute('INSERT INTO accounts (login, password, name, university, github) VALUES (?,?,?,?,?);', (user.login, password, user.name, university, github))
         
         db_connection.commit()
         cursor.close()
@@ -118,9 +119,14 @@ def user(login):
     context = dict()
     db_connection = sqlite3.connect('database.db')
     cursor = db_connection.cursor()
-    cursor.execute('SELECT accounts.login, accounts.id FROM accounts WHERE accounts.login=?', [login])
-    u = cursor.fetchone()
-    context['user'] = u
+    cursor.execute('SELECT accounts.login, accounts.id, accounts.name, accounts.github, accounts.university FROM accounts WHERE accounts.login=?', [login])
+    user = cursor.fetchone()
+    context['user'] = user
+
+    cursor.execute('SELECT notes.content, notes.class, notes.lectureName, notes.university, notes.noteID FROM notes WHERE notes.author=?', [user[1]])
+    notes = cursor.fetchall()
+    context['notes'] = notes
+
     return render_template('profile.html', context = context)
 
 
@@ -165,13 +171,14 @@ def note(id):
         cursor.close()
  
     cursor = db_connection.cursor()
-    cursor.execute('SELECT notes.content,  notes.university, notes.class, notes.lectureName, accounts.login FROM notes INNER JOIN accounts ON notes.author = accounts.id WHERE notes.noteID = ? ', [id])
+    cursor.execute('SELECT notes.content,  notes.university, notes.class, notes.lectureName, accounts.login, notes.noteID FROM notes INNER JOIN accounts ON notes.author = accounts.id WHERE notes.noteID = ? ', [id])
     note = cursor.fetchone()
     context['note'] = note
 
     cursor.execute('SELECT comments.content, accounts.login FROM comments INNER JOIN accounts ON comments.author=accounts.id WHERE comments.note=?;', [id])
     comments = cursor.fetchall()
     context['comments'] = comments
+
 
 
     return render_template('note.html', context = context)
@@ -196,6 +203,70 @@ def add_note():
 
     return render_template('add_note.html', context = context)
 
+@app.route('/notes/<id>/edit', methods = ['POST', 'GET'])
+def edit_note(id):
+    if (not session['user']):
+        return render_template('404.html', error = 'You are not loged in to view this page')
+    context = dict()
+    
+    db_connection = sqlite3.connect('database.db')
+    cursor = db_connection.cursor()
+    cursor.execute('SELECT notes.content, notes.university, notes.lectureName, notes.author, notes.class FROM notes WHERE notes.noteID = ?', [id])
+    note = cursor.fetchone()
+    context['note'] = note
 
+    if (not note[3]==session['user']['id']):
+        return render_template('404.html', error = 'You are not alowed to edit this note')
+    
+
+    if request.method == 'POST':
+        university = request.form.get('university')
+        cl = request.form.get('class')
+        name = request.form.get('name')
+        content = request.form.get('content')
+        cursor = db_connection.cursor()
+        cursor.execute('UPDATE notes SET content = ?, university = ?, class = ?, lectureName = ? WHERE notes.noteID = ?', (content, university, cl, name,id))
+        db_connection.commit()
+        cursor.close()
+        
+        return render_template('edit_note.html', context = context)
+
+        
+
+    return render_template('edit_note.html', context = context)
+
+@app.route('/users/<login>/edit', methods = ['POST', 'GET'])
+def edit_user(login):
+    if (not session['user']):
+        return render_template('404.html', error = 'You are not loged in to view this page')
+    context = dict()
+    
+    db_connection = sqlite3.connect('database.db')
+    cursor = db_connection.cursor()
+    cursor.execute('SELECT accounts.name, accounts.university, accounts.github FROM accounts WHERE accounts.login = ?', [login])
+    user = cursor.fetchone()
+    context['user'] = user
+
+    if (not login==session['user']['login']):
+        return render_template('404.html', error = 'You are not alowed to edit this user')
+    
+
+    if request.method == 'POST':
+        
+        name = request.form.get('name')
+        university = request.form.get('university')
+        github = request.form.get('github')
+
+        
+        cursor = db_connection.cursor()
+        cursor.execute('UPDATE accounts SET name = ?, university = ?, github = ? WHERE accounts.login = ?', (name, university, github, login))
+        db_connection.commit()
+        cursor.close()
+        
+        return render_template('edit_account.html', context = context)
+
+        
+
+    return render_template('edit_account.html', context = context)
 if __name__ == '__main__':
     app.run()

@@ -3,7 +3,7 @@
 
 TODO:
 - Landing Page
-- User account
+- Filter Results
 - Menu
 
 # Lecture Notes Sharer

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit Note Page
+{% endblock %}
+
+
+
+{% block body %}
+    <div class = "row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <form method = "post" id = "editNote">
+                <div class="form-group">
+                    <label for="university">University</label>
+                    <input type="text" class="form-control" id="university" name = "university" value="{{context['note'][1]}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <input type="text" class="form-control" id="class" name = "class" placeholder="Intro to Database Design" value="{{context['note'][4]}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Name of the lecture</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Table joining" value="{{context['note'][2]}}">
+                </div>
+
+                
+                
+                <div class="form-group">
+                    <label for="content">Note content</label>
+                    <textarea class="form-control" id="content" name = "content" rows="3">{{context['note'][0]}}</textarea>
+                </div>
+                <div class="form-group">
+                    <input type = "submit" class = "btn btn-primary" value = "Edit Note" />
+                </div>
+            </form>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    
+
+{% endblock %}

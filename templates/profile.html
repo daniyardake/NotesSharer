@@ -4,8 +4,49 @@
     View User: {{context['user'][0]}}, {{context['user'][1]}}
 {% endblock %}
 
-{% block main %}
-    <p>
-        Hello world!
-    </p> 
+{% block body %}
+    
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-12">
+                {% if context['user'][0] == session['user']['login']%}
+                    <div class = "row"><div class = "col-sm-10"><h1>{{context['user'][0]}}</h1></div><div class = "col-sm-2"><a href = "{{url_for('edit_user', login = session['user']['login'])}}" class = "btn btn-info">Edit</a></div></div>
+                {% else %}
+                    <h1><center>{{context['user'][0]}}<center></h1>
+                {% endif%}
+                <ul class="list-group">
+                    <li class="list-group-item">Login: {{context['user'][0]}}</li>
+                    <li class="list-group-item">Name: {{context['user'][2]}}</li>
+                    {% if context['user'][3] %}
+                        <li class="list-group-item">Github: {{context['user'][3]}}</li>
+                    {% endif %}
+                    {% if context['user'][4] %}
+                        <li class="list-group-item">University: {{context['user'][4]}}</li>
+                    {% endif %}
+                    
+                </ul>
+
+
+                {% for note in context['notes'] %}
+                    {% if loop.index == 1 %}
+                        <center> Notes by user {{context['user'][0]}}: </center>
+                    {% endif %}
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <b>{{note[3]}}</b>: {{note[1]}}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{note[2]}}</h5>
+                            <p class="card-text">{{note[0] |truncate(150)}}.</p>
+                            <a href="{{url_for('note', id = note[4])}}" class="btn btn-primary">Read more</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+    <div>
 {% endblock %}

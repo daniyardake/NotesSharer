@@ -12,36 +12,25 @@
 {% block body %}
 
     <div class="container register-form" style = "margin-top: 150px">
-        <form method = "post" action = "{{url_for('register')}}"  id = "registration">
+        <form method = "post"   id = "edit_account">
             <div class="form">
                 <div class="form-content">
                     <div class="row">
-                        <div class="col-md-4">
+                        
+                        
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <input type="text" id = "login" class="form-control" placeholder="Login *" value="" name = "login" required/>
+                                    <input type="text" class="form-control" placeholder="Name *" value="{{context['user'][0]}}" name = "name" required />
                             </div>
                             <div class="form-group">
-                                <input type="password" id = "password" class="form-control" placeholder="Password *" value="" name = "password" required />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name *" value="" name = "name" required />
-                            </div>
-                            <div class="form-group">
-                                <input type="password" id = "password2" class="form-control" placeholder="Confirm Password *" value="" name = "password2" required />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="University" value="" name = "university"/>
+                                <input type="text" class="form-control" placeholder="University" value="{{context['user'][1]}}" name = "university"/>
                             </div>
                             <div class="form-group">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
                                     <div class="input-group-text">https://github.com/</div>
                                     </div>
-                                    <input type="text" id = "github" class="form-control" id="inlineFormInputGroup" placeholder="github username" name = "github">
+                                    <input type="text" id = "github" class="form-control" id="inlineFormInputGroup" value = "{{context['user'][2]}}" placeholder="github username" name = "github">
                                 </div>
                                 
                             </div>

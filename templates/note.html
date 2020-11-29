@@ -11,6 +11,9 @@
                 <div class="col-md-12">
                     <div class="">
                         <h1  class="hidden-xs hidden-sm">{{context['note'][3]}}</h1>
+                        {% if  context['note'][4] == session['user']['login'] %}
+                            <p><a href = "{{url_for('edit_note', id = context['note'][5])}}">Edit</a></p>
+                        {% endif %}
                         <hr>
                         <small><strong>{{context['note'][1]}}:</strong>{{context['note'][2]}}</small><br>
                         <small><strong>Author:</strong> <a href = "{{url_for('user', login = context['note'][4])}}">{{context['note'][4]}}</a></small>
