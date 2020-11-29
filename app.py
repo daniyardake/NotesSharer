@@ -127,7 +127,7 @@ def notes():
     
     cursor.close()
     
-    context['notes'] = notes
+    context['notes'] = reversed(notes)
     return render_template('notes.html', context = context)
 
 @app.route('/notes/<id>', methods = ['POST', 'GET'])
@@ -153,6 +153,24 @@ def note(id):
 
 
     return render_template('note.html', context = context)
+
+
+@app.route('/notes/add', methods = ['POST', 'GET'])
+def add_note():
+    context = dict()
+    if request.method == 'POST':
+        university = request.form.get('university')
+        cl = request.form.get('class')
+        name = request.form.get('name')
+        content = request.form.get('content')
+        db_connection = sqlite3.connect('database.db')
+        cursor = db_connection.cursor()
+        cursor.execute('INSERT INTO notes (content, author, university, class, lectureName) VALUES (?,?,?,?,?);', (content, session['user']['id'], university, cl, name))
+        db_connection.commit()
+        cursor.close()
+        
+
+    return render_template('add_note.html', context = context)
 
 
 if __name__ == '__main__':
