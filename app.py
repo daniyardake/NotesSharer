@@ -10,12 +10,7 @@ app.secret_key = 'hello world!'
 @app.route('/')
 def index():
     context = dict()
-    try:
-        a = session['user']
-        if (a):
-            return notes()
-    except:
-        return render_template('index.html', context = context)
+
 
     
     return render_template('index.html', context = context)
@@ -23,13 +18,7 @@ def index():
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     context = dict()
-    try:
-        a = session['user']
-        if (a):
-            return notes()
-    except:
-        return render_template('login.html', context = context)
-
+    
 
 
     # if (session['user']):
@@ -73,12 +62,7 @@ def login():
 @app.route('/register', methods = ['POST', "GET"])
 def register():
     context = dict()
-    try:
-        a = session['user']
-        if (a):
-            return notes()
-    except:
-        return render_template('registration.html', context=context)
+    
 
     
     if (request.method == 'GET'):
