@@ -40,7 +40,7 @@ def login():
             'id' : user[0],
             'login' : login,
             }
-            return render_template('my_account.html', context = context)
+            return notes()
         else:
             context['error_wrong_login'] = True
             return render_template('login.html', context = context)

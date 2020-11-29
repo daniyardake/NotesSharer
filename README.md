@@ -3,7 +3,6 @@
 
 TODO:
 - Filter Results
-- Menu
 
 # Lecture Notes Sharer
 

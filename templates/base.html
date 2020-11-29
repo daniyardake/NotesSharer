@@ -13,39 +13,34 @@
     <body>
         <main>
             <nav class="navbar navbar-dark bg-primary">
-            <a class="navbar-brand" href="{{ url_for('index') }}">NoteSharer</a>
-            {% if session['user'] %}
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            {% else %}
-                <a class="btn btn-light" href="{{ url_for('login') }}">Login </a>
-                <a class="btn btn-light" href="{{url_for('register')}}">Registration</a>
-            {% endif %}
-             
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('notes')}}">Lecture Notes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('all_users')}}">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('user', login = session['user']['login'])}}">My Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add Problem</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('exit')}}">Sign Out</a>
-                </li>
+                <a class="navbar-brand" href="{{ url_for('index') }}">NoteSharer</a>
+                {% if session['user'] %}
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                {% else %}
+                    <a class="btn btn-light" href="{{ url_for('login') }}">Login </a>
+                    <a class="btn btn-light" href="{{url_for('register')}}">Registration</a>
+                {% endif %}
+                
+                <div class="collapse navbar-collapse" id="navbarText">
+                
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('notes')}}">Lecture Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('all_users')}}">All Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('user', login = session['user']['login'])}}">My Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('exit')}}">Sign Out</a>
+                    </li>
 
-                </ul>
-            </div>
+                    </ul>
+                </div>
             </nav>
             {% block body %}{% endblock %}
             <footer class="footer bg-primary" style = "position: fixed; left: 0; bottom: 0; width: 100%; color:white; text-align: center;">
