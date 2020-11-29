@@ -16,21 +16,23 @@ def index():
 def login():
     context = dict()
 
-    if (session['user']):
-        return render_template('my_account.html', context = context)
-
-
+    # if (session['user']):
+    #     return render_template('my_account.html', context = context)
     if (request.method == 'GET'):
         return render_template('login.html', context = context)
     else:
-        db_connection = sqlite3.connect('database.db')
-        cursor = db_connection.cursor()
-
         login = request.form.get('login')
         password = request.form.get('password')
+        try:
+            db_connection = sqlite3.connect('database.db')
+            cursor = db_connection.cursor()
+            cursor.execute('SELECT id, login, name FROM accounts WHERE login = ? AND password = ? ', [login,password])
+            user = cursor.fetchone()
+        except:
+            print('DATABASE EROOR!!!!!!!!')
+        
 
-        cursor.execute('SELECT id, login, name FROM accounts WHERE login = ? AND password = ? ', [login,password])
-        user = cursor.fetchone()
+            
         
         if (user):
             session['user'] = {
@@ -52,13 +54,9 @@ def login():
         
         return render_template('login.html', context = context)
     
-
 @app.route('/register', methods = ['POST', "GET"])
 def register():
     context = dict()
-    if (session['user']):
-        return render_template('account.html', context = context)
-    
     if (request.method == 'GET'):
         return render_template('registration.html', context = context)
     else:
@@ -100,7 +98,7 @@ def exit():
     else:
         return render_template('error.html', context = context)
 
-@app.route('/all_users')
+@app.route('/users/all')
 def all_users():
     context = dict()
     db_connection = sqlite3.connect('database.db')
@@ -111,13 +109,51 @@ def all_users():
     context['users'] = users
     return render_template('all_users.html', context = context)
     
+
 @app.route('/my_account')
 def my_account():
     context = dict()
-    db_connection = sqlite3.connect('database.db')
-   
 
-    return render_template('all_users.html', context = context)
+    context['login'] = session['user']['login']
+    return render_template('my_account.html', context = context)
+
+@app.route('/notes')
+def notes():
+    context = dict()
+    db_connection = sqlite3.connect('database.db')
+    cursor = db_connection.cursor()
+    cursor.execute('SELECT * FROM notes;')
+    notes = cursor.fetchall()
+    
+    cursor.close()
+    
+    context['notes'] = notes
+    return render_template('notes.html', context = context)
+
+@app.route('/notes/<id>', methods = ['POST', 'GET'])
+def note(id):
+    context = dict()
+    
+    db_connection = sqlite3.connect('database.db')
+    if (request.method == 'POST'):
+        comment = request.form.get('comment')
+        cursor = db_connection.cursor()
+        cursor.execute('INSERT INTO comments (content, author, note) VALUES (?,?,?);', (comment, session['user']['id'], id))
+        db_connection.commit()
+        cursor.close()
+ 
+    cursor = db_connection.cursor()
+    cursor.execute('SELECT notes.content,  notes.university, notes.class, notes.lectureName, accounts.login FROM notes INNER JOIN accounts ON notes.author = accounts.id WHERE notes.noteID = ? ', [id])
+    note = cursor.fetchone()
+    context['note'] = note
+
+    cursor.execute('SELECT comments.content, accounts.login FROM comments INNER JOIN accounts ON comments.author=accounts.id WHERE comments.note=?;', [id])
+    comments = cursor.fetchall()
+    context['comments'] = comments
+
+
+    return render_template('note.html', context = context)
+
 
 if __name__ == '__main__':
     app.run()

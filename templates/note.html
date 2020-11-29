@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Note Page
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="well"> 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="">
+                        <h1  class="hidden-xs hidden-sm">{{context['note'][3]}}</h1>
+                        <hr>
+                        <small><strong>{{context['note'][1]}}:</strong>{{context['note'][2]}}</small><br>
+                        <small><strong>Author:</strong> <a href = "">{{context['note'][4]}}</a></small>
+                        <hr>
+                        <p class="text-justify">{{context['note'][0]}}</p></div>
+                </div>
+            </div>
+        </div>
+        {% for comment in context['comments'] %}
+            <div class="alert alert-info" role="alert">
+                <a href = "">{{comment[1]}}</a>: {{comment[0]}}
+            </div>
+        {% endfor %}
+
+        <form method = "post"  id = "comment">
+            <div class="form-row">
+                <div class="col-11">
+                    <input type="text" id = "comment" name = "comment" class="form-control" placeholder="Your comment">
+                    
+                </div>
+                <div class="col-1">
+                    <input type = "submit" class = "btn btn-primary" value = "Submit" />
+                </div>
+               
+            </div>
+        </form>
+        
+    </div>
+{% endblock %}

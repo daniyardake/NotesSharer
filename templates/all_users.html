@@ -5,10 +5,37 @@
 {% endblock %}
 
 {% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Login</th>
+            <th scope="col">Name</th>
+            <th scope="col">Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in context['users'] %}
+                <tr>
+                    <th scope="row">{{user[0]}}</th>
+                    <td>{{user[1]}}</td>
+                    <td>{{user[3]}}</td>
+                    <td>{{user[2]}}</td>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+
+
+
+
     <ul>
-        {% for user in context['users'] %}
-            <li> {{user[0]}}, {{user[1]}}, {{user[2]}}, {{user[3]}} </li>
-        {% endfor %}
+        
+            
+        
     </ul>
     
 {% endblock %}

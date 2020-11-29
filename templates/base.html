@@ -29,7 +29,7 @@
                     <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Problems</a>
+                    <a class="nav-link" href="{{url_for('notes')}}">Lecture Notes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('all_users')}}">Users</a>
@@ -45,9 +45,6 @@
                 </li>
 
                 </ul>
-                <span class="navbar-text">
-                Navbar text with an inline element
-                </span>
             </div>
             </nav>
             {% block body %}{% endblock %}
