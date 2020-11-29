@@ -1,6 +1,10 @@
 
 # CURRENTLY IN PROGRESS
 
+TODO:
+- Landing Page
+- User account
+- Menu
 
 # Lecture Notes Sharer
 

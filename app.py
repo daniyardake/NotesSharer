@@ -10,6 +10,7 @@ app.secret_key = 'hello world!'
 @app.route('/')
 def index():
     context = dict()
+    
     return render_template('index.html', context = context)
 
 @app.route('/login', methods = ['POST', 'GET'])
@@ -56,6 +57,7 @@ def login():
     
 @app.route('/register', methods = ['POST', "GET"])
 def register():
+
     context = dict()
     if (request.method == 'GET'):
         return render_template('registration.html', context = context)
@@ -98,8 +100,10 @@ def exit():
     else:
         return render_template('error.html', context = context)
 
-@app.route('/users/all')
+@app.route('/users')
 def all_users():
+    if (not session['user']):
+        return render_template('404.html', error = 'You are not loged in to view this page')
     context = dict()
     db_connection = sqlite3.connect('database.db')
     cursor = db_connection.cursor()
@@ -109,17 +113,33 @@ def all_users():
     context['users'] = users
     return render_template('all_users.html', context = context)
     
+@app.route('/users/<login>')
+def user(login):
+    context = dict()
+    db_connection = sqlite3.connect('database.db')
+    cursor = db_connection.cursor()
+    cursor.execute('SELECT accounts.login, accounts.id FROM accounts WHERE accounts.login=?', [login])
+    u = cursor.fetchone()
+    context['user'] = u
+    return render_template('profile.html', context = context)
+
 
 @app.route('/my_account')
 def my_account():
     context = dict()
 
-    context['login'] = session['user']['login']
+    #context['login'] = session['user']['login']
     return render_template('my_account.html', context = context)
 
 @app.route('/notes')
 def notes():
+    if (not session['user']):
+        return render_template('404.html', error = 'You are not loged in to view this page')
+
+        
+
     context = dict()
+
     db_connection = sqlite3.connect('database.db')
     cursor = db_connection.cursor()
     cursor.execute('SELECT * FROM notes;')
@@ -132,6 +152,8 @@ def notes():
 
 @app.route('/notes/<id>', methods = ['POST', 'GET'])
 def note(id):
+    if (not session['user']):
+        return render_template('404.html', error = 'You are not loged in to view this page')
     context = dict()
     
     db_connection = sqlite3.connect('database.db')
@@ -157,6 +179,8 @@ def note(id):
 
 @app.route('/notes/add', methods = ['POST', 'GET'])
 def add_note():
+    if (not session['user']):
+        return render_template('404.html', error = 'You are not loged in to view this page')
     context = dict()
     if request.method == 'POST':
         university = request.form.get('university')
