@@ -2,7 +2,6 @@
 # CURRENTLY IN PROGRESS
 
 TODO:
-- Landing Page
 - Filter Results
 - Menu
 
