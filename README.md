@@ -4,6 +4,10 @@ This is final project of Intro to Database Design Class, where we learned introd
 
 This application allows users to login/register and then share lecture their notes with each other.
 
+## Live view
+
+You can check the live version of the website [here](http://daniyardake.pythonanywhere.com/). Please, create an issue or push request if it doesn't work.
+
 ## Requirements
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all requirements.
