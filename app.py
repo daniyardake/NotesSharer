@@ -94,6 +94,7 @@ def register():
         
         db_connection.commit()
         cursor.close()
+        return redirect("/notes")
         return render_template('my_account.html', context = context)
 
 @app.route('/exit')
