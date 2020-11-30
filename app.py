@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 import sqlite3
 import os
-from models import Account
 
 app = Flask(__name__)
 app.secret_key = 'hello world!'
@@ -44,7 +43,7 @@ def login():
             'id' : user[0],
             'login' : login,
             }
-            return notes()
+            return redirect("/notes")
         else:
             context['error_wrong_login'] = True
             return render_template('login.html', context = context)
@@ -254,8 +253,8 @@ def edit_note(id):
         cursor.execute('UPDATE notes SET content = ?, university = ?, class = ?, lectureName = ? WHERE notes.noteID = ?', (content, university, cl, name,id))
         db_connection.commit()
         cursor.close()
+        return redirect('/notes/'+id+'/edit')
         
-        return render_template('edit_note.html', context = context)
 
         
 
@@ -288,9 +287,9 @@ def edit_user(login):
         cursor.execute('UPDATE accounts SET name = ?, university = ?, github = ? WHERE accounts.login = ?', (name, university, github, login))
         db_connection.commit()
         cursor.close()
+        return redirect('/users/'+login+'/edit')
         
-        return render_template('edit_account.html', context = context)
-
+    
         
 
     return render_template('edit_account.html', context = context)

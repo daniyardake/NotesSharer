@@ -18,20 +18,17 @@
                         <small><strong>{{context['note'][1]}}:</strong>{{context['note'][2]}}</small><br>
                         <small><strong>Author:</strong> <a href = "{{url_for('user', login = context['note'][4])}}">{{context['note'][4]}}</a></small>
                         <hr>
-                        <p class="text-justify">{{context['note'][0]}}</p></div>
+                        <p class="text-justify">{{context['note'][0] | safe }}</p></div>
+                        <hr>
                 </div>
             </div>
         </div>
-        {% for comment in context['comments'] %}
-            <div class="alert alert-info" role="alert">
-                <a href = "{{url_for('user', login = comment[1])}}">{{comment[1]}}</a>: {{comment[0]}}
-            </div>
-        {% endfor %}
-
+        
+        
         <form method = "post"  id = "comment">
             <div class="form-row">
                 <div class="col-11">
-                    <input type="text" id = "comment" name = "comment" class="form-control" placeholder="Your comment">
+                    <input type="text" id = "comment" name = "comment" class="form-control" placeholder="Add comment">
                     
                 </div>
                 <div class="col-1">
@@ -40,6 +37,12 @@
                
             </div>
         </form>
+        <hr>
+        {% for comment in context['comments'] %}
+            <div class="alert alert-info" role="alert">
+                <a href = "{{url_for('user', login = comment[1])}}">{{comment[1]}}</a>: {{comment[0]}}
+            </div>
+        {% endfor %}
         
     </div>
 {% endblock %}
