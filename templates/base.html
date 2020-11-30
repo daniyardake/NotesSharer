@@ -45,11 +45,13 @@
                 {% endif %}
             </nav>
             {% block body %}{% endblock %}
+            {% if not context['main'] %}
             <footer class="footer bg-primary" style = "position: fixed; left: 0; bottom: 0; width: 100%; color:white; text-align: center;">
                 <div class="container">
                     <span class="">With ♥ from <a href = "https://daniyardake.github.io/" style = "color:yellow;">Daniyar (Dan) Aubekerov</a>.</span>
                 </div>
             </footer>
+            {% endif %}
         </main>
         
 

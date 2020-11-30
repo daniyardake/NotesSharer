@@ -10,6 +10,7 @@ app.secret_key = 'hello world!'
 @app.route('/')
 def index():
     context = dict()
+    context['main'] = True
 
 
     
