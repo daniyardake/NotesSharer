@@ -84,14 +84,13 @@ def register():
         else:
             cursor.execute('SELECT COUNT(*) FROM accounts;')
             id = int(cursor.fetchone()[0])+1
-            user = Account(id = id, login = login, name = name)
             session['user'] = {
                 'id' : id,
                 'login' : login,
                 'name' : name
             }
             
-            cursor.execute('INSERT INTO accounts (login, password, name, university, github) VALUES (?,?,?,?,?);', (user.login, password, user.name, university, github))
+            cursor.execute('INSERT INTO accounts (login, password, name, university, github) VALUES (?,?,?,?,?);', (login, password, name, university, github))
         
         db_connection.commit()
         cursor.close()
