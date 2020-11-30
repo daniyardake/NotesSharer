@@ -34,7 +34,7 @@ def login():
             cursor.execute('SELECT id, login, name FROM accounts WHERE login = ? AND password = ? ', [login,password])
             user = cursor.fetchone()
         except:
-            print('DATABASE EROOR!!!!!!!!')
+            print('DATABASE EROOR!')
         
 
         
