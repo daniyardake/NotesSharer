@@ -37,7 +37,6 @@ def login():
             print('DATABASE EROOR!!!!!!!!')
         
 
-            
         
         if (user):
             session['user'] = {
