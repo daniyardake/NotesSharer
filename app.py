@@ -18,11 +18,6 @@ def index():
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     context = dict()
-    
-
-
-    # if (session['user']):
-    #     return render_template('my_account.html', context = context)
     if (request.method == 'GET'):
         return render_template('login.html', context = context)
     else:
