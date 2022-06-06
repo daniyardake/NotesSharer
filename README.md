@@ -6,7 +6,7 @@ The web application has landing page and notes page. After user has registered, 
 
 ## Live view
 
-You can check the live version of the website [here](http://daniyardake.pythonanywhere.com/). Please, create an issue or push request if it doesn't work.
+You can check the live version of the website [here](http://daniyardake.pythonanywhere.com/). Please, create an issue or pull request if it doesn't work.
 
 ## Requirements
 
