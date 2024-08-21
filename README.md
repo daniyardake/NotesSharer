@@ -1,7 +1,5 @@
 # Lecture Notes Sharer
 
-This is final project of Intro to Database Design Class, where we learned introduction to SQL. For the final project we had to use any programming language and db to create a single application that executes some SQL commands. I decided to use Flask framework. However, as the main purpose was to use SQL commands I did not use SQLAlchemy to handle ORM. In addition, I used JavaScript to do input validation on user's side. Finally, I used MathJax to process LaTeX formulas in Lecture Notes.
-
 The web application has landing page and notes page. After user has registered, he will be able to add lecture notes from his university. There is "All Notes" page, which displays all lecture notes uploaded by the users. In addition, every user can edit their profile, edit notes, and leave comments on notes. There is a "search by" functionality on the "All Notes" page.
 
 ## Live view
